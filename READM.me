@@ -1,0 +1,77 @@
+# 我是后台API
+## Express 应用和 MongoDB 数据库之间如何关联
+1. 首先建立一个简单的Express 应用
+2. 会简单操作MongoDB数据库
+
+安装 mongoose 包
+```
+npm install --save mongoose
+```
+我的数据库是babel:
+调用 Mongoose#connect 方法连接本案例使用的 babel数据库:
+
+```js
+mongoose.connect('mongodb://localhost:27017/babel');
+```
+作用类似：
+```js
+var uri = require('./config.js').uri
+mongoose.connect(uri);
+```
+传递给 mongoose.connect 方法的第一个参数是 MongoDB 数据库对应的连接字符串 URI，简单分析一下本案例数据库的 URI 字符串，它由三部分组成：
+
+- mongodb:// 代表使用的协议
+
+- localhost:27017 代表要连接的服务器地址，一个 MongoDB 服务器实例运行在本地 27017 端口
+
+- babel 代表要连接的数据库名字
+
+mongoose.connect 语句执行之后，我们并不能确定 Mongoose 成功连接上了 MongodDB 数据库，
+
+还得添加以下检验代码：检验连接是否成功
+
+```js
+var db = mongoose.connection;
+db.on('error', function(err){
+  console.log('connection failed!', err);
+});
+db.once('open', function() {
+  console.log('success!')
+});
+```
+
+### post.js所导出的
+
+```js
+var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
+const UserSchema = new Schema(
+  {
+    username: { type: String },
+    password: { type: String }
+    //数据库所对应的条目
+  },
+  { timestamps: true }
+);
+module.exports = mongoose.model('User', UserSchema);
+//User　会自动对应数据库中的 users 这个集合
+//如：　Person  对应　people
+```
+
+检索数据库中的记录,反馈给管理员
+
+```js
+db.once('open', function() {
+  User.find().exec(function(err, posts) {
+    console.log(posts);
+  });
+});//检索数据库中的记录
+```
+
+上面把　User.find() 代码封装到了一个API(web API ),
+这样触发条件就变了。只有用户发出'GET/users'请求的时候，
+User.find()代码才会被执行
+
+### body-parser
+ 是一个由 Expressjs 团队维护的 Express 中间件，它的功能是解析 HTTP 请求中的正文信息，
+并把这些信息存储到 req.body 对象中，比方说，客户端提交 form 表单的数据。
