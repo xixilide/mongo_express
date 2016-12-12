@@ -1,9 +1,16 @@
-# 我是后台API
+# 后台API
 ## Express 应用和 MongoDB 数据库之间如何关联
+
 1. 首先建立一个简单的Express 应用
 2. 会简单操作MongoDB数据库
 
+ 启动数据库
+```
+mongod --dbpath ~/data/db
+```
+
 安装 mongoose 包
+
 ```
 npm install --save mongoose
 ```
@@ -62,8 +69,8 @@ module.exports = mongoose.model('User', UserSchema);
 
 ```js
 db.once('open', function() {
-  User.find().exec(function(err, posts) {
-    console.log(posts);
+  User.find().exec(function(err, users) {
+    console.log(users);
   });
 });//检索数据库中的记录
 ```
@@ -72,6 +79,29 @@ db.once('open', function() {
 这样触发条件就变了。只有用户发出'GET/users'请求的时候，
 User.find()代码才会被执行
 
+但是，我们为何不把代码写成这样呢？
+
+```js
+let users = User.find();
+conole.log(users)
+```
+
+答案是：　find() 接口是一个异步函数，所以它的返回值　users 只能 在回调函数中使用。
+.exec 字面意思就是执行，我们把回调函数穿给它做参数。
+
 ### body-parser
  是一个由 Expressjs 团队维护的 Express 中间件，它的功能是解析 HTTP 请求中的正文信息，
 并把这些信息存储到 req.body 对象中，比方说，客户端提交 form 表单的数据。
+
+
+### res.json 和 res.send 的区别
+
+- res.send()可以发任何格式的请求,可以自动字符转换
+- res.json()json 格式的请求
+
+### 什么是 JSON ？
+
+- JSON 指的是 JavaScript 对象表示法（JavaScript Object Notation）
+- JSON 是轻量级的文本数据交换格式
+- JSON 独立于语言 *
+- JSON 具有自我描述性，更易理解

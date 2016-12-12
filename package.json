@@ -7,8 +7,15 @@
     "build:webpack": "NODE_ENV=production webpack --config webpack.config.prod.js",
     "build": "npm run clean && npm run build:webpack",
     "start": "node devServer.js",
-    "lint": "eslint src"
+    "lint": "eslint src",
+    "preinstall": "npm install node-pre-gyp",
+       "install": "node-pre-gyp install --fallback-to-build"
   },
+  "binary": {
+        "module_name": "your_module",
+        "module_path": "./lib/binding/",
+        "host": "https://your_module.s3-us-west-1.amazonaws.com"
+    },
   "keywords": [
     "react-transform"
   ],
