@@ -11,11 +11,11 @@ var bodyParser = require('body-parser');
 //它的功能是解析 HTTP 请求中的正文信息，并把这些信息存储到 req.body 对象中，比方说，客户端提交 form 表单的数据。
 // app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false })); // 如果想使用 form 提交，这一行是必要的
-var cors= require('cors');
+var cors= require('cors');//跨域
 app.use(cors());//使用中间件
 db.on('error', console.log);
 
-db.once('open', function() {
+// db.once('open', function() {
  //  var post = new User({username:"xixilide",
  //    password:"111",
  //    email:"221www@sina.com",
@@ -23,8 +23,8 @@ db.once('open', function() {
  // post.save(function(err){
  //   if(err) console.log(err);
  // })
- console.log('success!');
-});
+//  console.log('success!');
+// });
 
 db.once('open', function() {
   User.find().exec(function(err, users) {
@@ -43,7 +43,7 @@ app.get('/users/:_id', function(req,res ){
   User.findById(req.params._id,function (err,user) {
      if(err) return console.log(err);
      console.log(user);
-     res.send(user)
+     res.send({user})
 })
 })
 //取得每个用户id来获取

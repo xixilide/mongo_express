@@ -9,6 +9,11 @@
 mongod --dbpath ~/data/db
 ```
 
+启动8081端口的网页版数据库
+```
+mongo-express
+```
+
 安装 mongoose 包
 
 ```
@@ -21,10 +26,12 @@ npm install --save mongoose
 mongoose.connect('mongodb://localhost:27017/babel');
 ```
 作用类似：
+
 ```js
 var uri = require('./config.js').uri
 mongoose.connect(uri);
 ```
+
 传递给 mongoose.connect 方法的第一个参数是 MongoDB 数据库对应的连接字符串 URI，简单分析一下本案例数据库的 URI 字符串，它由三部分组成：
 
 - mongodb:// 代表使用的协议
@@ -52,6 +59,7 @@ db.once('open', function() {
 ```js
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+//创建一个Schema
 const UserSchema = new Schema(
   {
     username: { type: String },
@@ -87,10 +95,13 @@ conole.log(users)
 ```
 
 答案是：　find() 接口是一个异步函数，所以它的返回值　users 只能 在回调函数中使用。
+
 .exec 字面意思就是执行，我们把回调函数穿给它做参数。
 
 ### body-parser
+
  是一个由 Expressjs 团队维护的 Express 中间件，它的功能是解析 HTTP 请求中的正文信息，
+
 并把这些信息存储到 req.body 对象中，比方说，客户端提交 form 表单的数据。
 
 
@@ -101,7 +112,7 @@ conole.log(users)
 
 ### 什么是 JSON ？
 
-- JSON 指的是 JavaScript 对象表示法（JavaScript Object Notation）
+- JSON 指的是 JavaScript 对象表示法（JavaScript Object   Notation）
 - JSON 是轻量级的文本数据交换格式
 - JSON 独立于语言 *
 - JSON 具有自我描述性，更易理解
