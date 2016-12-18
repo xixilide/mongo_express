@@ -9,11 +9,11 @@
 mongod --dbpath ~/data/db
 ```
 
-启动8081端口的网页版数据库
+启动8081端口的网页版数据库,打开8081网页版
 ```
-mongo-express
+mongo-texpress
 ```
-
+nodemon 打开后台
 安装 mongoose 包
 
 ```
@@ -116,3 +116,35 @@ conole.log(users)
 - JSON 是轻量级的文本数据交换格式
 - JSON 独立于语言 *
 - JSON 具有自我描述性，更易理解
+
+### express()
+
+创建一个 Express 应用。express() 是一个由 express 模块导出的入口（top-level）函数。
+```js
+var express = require('express');
+var app = express();
+```
+
+### 跨域请求的解决方案
+
+解决方案采用： https://github.com/expressjs/cors
+
+cors 是 Cross Origin Resource Share ，安装了这个包就可以完成
+
+```
+Access-Control-Allow-Origin: *
+```
+
+这个设置了。
+
+### 路由（Routing）
+
+是由一个 URI（或者叫路径）和一个特定的 HTTP 方法（GET、POST 等）组成的，涉及到应用如何响应客户端对某个网站节点的访问。
+
+每一个路由都可以有一个或者多个处理器函数，当匹配到路由时，这个/些函数将被执行。
+
+路由的定义由如下结构组成：app.METHOD(PATH, HANDLER)。
+
+其中，app 是一个 express 实例；METHOD 是某个 HTTP 请求方式中的一个；
+
+PATH 是服务器端的路径；HANDLER 是当路由匹配到时需要执行的函数。
