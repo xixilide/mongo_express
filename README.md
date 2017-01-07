@@ -11,7 +11,7 @@ mongod --dbpath ~/data/db
 
 启动8081端口的网页版数据库,打开8081网页版
 ```
-mongo-texpress
+mongo-express
 ```
 nodemon 打开后台
 安装 mongoose 包
